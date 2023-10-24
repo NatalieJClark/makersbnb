@@ -44,7 +44,7 @@ def test_find_user(db_connection):
 When we call UserRepository#update with a user object
 It is reflected in the list when we call UserRepository#all
 """
-def test_update_password(db_connection):
+def test_update_user(db_connection):
     db_connection.seed("seeds/makers_bnb_library.sql")
     repository = UserRepository(db_connection)
     user = repository.find(1)
