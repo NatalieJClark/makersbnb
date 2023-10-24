@@ -1,17 +1,15 @@
 import os, psycopg
 from flask import g
 from psycopg.rows import dict_row
+from dotenv import load_dotenv
 
 
-# This class helps us interact with the database.
-# It wraps the underlying psycopg library that we are using.
+load_dotenv()
 
-# If the below seems too complex right now, that's OK.
-# That's why we have provided it!
 class DatabaseConnection:
     # VVV CHANGE BOTH OF THESE VVV
-    DEV_DATABASE_NAME = "makers_bnb_library"
-    TEST_DATABASE_NAME = "makers_bnb_library_test"
+    DEV_DATABASE_NAME = os.getenv("DEV_DATABASE_NAME")
+    TEST_DATABASE_NAME = os.getenv("TEST_DATABASE_NAME")
 
     def __init__(self, test_mode=False):
         self.test_mode = test_mode
