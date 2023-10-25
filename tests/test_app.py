@@ -17,19 +17,16 @@ def test_get_index(page, test_web_address):
 
 def test_link_create_user(page, test_web_address):
     page.goto(f"http://{test_web_address}/index")
-
     page.click("text=New to MakersBNB?")
-
     h5_tag = page.locator('h5')
-
     expect(h5_tag).to_have_text("Create New User")
 
-
-    # # We look at the <p> tag
-    # strong_tag = page.locator("p")
-
-    # # We assert that it has the text "This is the homepage."
-    # expect(strong_tag).to_have_text("This is the homepage.")
-
-"""
-"""
+# def test_user_new_match_passwords(page, test_web_address):
+#     page.goto(f"http://{test_web_address}/users/new")
+#     page.fill("input[name=email]", "email@email.co")
+#     page.fill("input[name=username]", "new_user")
+#     page.fill("input[name=password1]", "e1234x")
+#     page.fill("input[name=password2]", "e1234x")
+#     page.click("text=Create New User")
+#     h1_tag = page.locator('h1')
+#     expect(h1_tag).to_have_text("Welcome to Makers B&B")
