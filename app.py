@@ -13,7 +13,12 @@ app = Flask(__name__)
 #   ; open http://localhost:5000/index
 @app.route('/index', methods=['GET'])
 def get_index():
-    return render_template('index.html')
+    return render_template('/index.html')
+
+@app.route('/users/new', methods=['GET'])
+def get_new_user():
+    return render_template("/users/create.html")
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
