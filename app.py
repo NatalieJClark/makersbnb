@@ -1,6 +1,7 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, redirect
 from lib.database_connection import get_flask_database_connection
+from lib.user_repository import UserRepository
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -14,6 +15,31 @@ app = Flask(__name__)
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
+
+@app.route('/index', methods=['POST'])
+def login_post():
+    email = request.form['email']
+    password = request.form['password']
+
+    if UserRepository.check_password(email, password):
+        user = UserRepository.filter_by_property('email', email)
+        # set user id
+        session['user_id'] = user.id
+
+        return render_template('home_page.html')
+    else:
+        return render_template('login_error.html')
+
+# only if a user is signed-in
+# this route can be re used for any pages that are only available
+# if the user is logged in
+@app.route('/account_page') #can change page
+def account_page():
+    if 'user_id' not in session:
+        return redirect('/index')
+    else:
+        return render_template('account.html')
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
