@@ -1,3 +1,26 @@
 body {
     font-size: 18px;
 }
+
+.card {
+    box-shadow: 0 0 10px 5px lightblue;
+}
+
+.form-container {
+    margin-top: 150px;
+
+}
+
+.login-btn {
+    width: 100%;
+}
+
+.signup-link {
+    font-size: 12px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
