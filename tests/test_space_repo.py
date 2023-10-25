@@ -47,3 +47,12 @@ def test_all_spaces_by_user_id(db_connection):
         Space(4, 'myplace4', '4 this is a description', 74, 'SW10 9BJ', 30.0, 3),
         Space(5, 'myplace5', '5 this is a description', 67, 'E14 9TY', 18.0, 3)
     ]
+
+def test_update_space(db_connection):
+    db_connection.seed("seeds/makers_bnb_library.sql")
+    space_repo = SpaceRepository(db_connection)
+    space = space_repo.find(2)
+    space.name = "new name"
+    space_repo.update(space)
+    updated_space = space_repo.find(2)
+    assert updated_space == Space(2, 'new name', '2 this is a description', 50, 'N1 9UY', 15.0, 1 )
