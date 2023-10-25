@@ -24,12 +24,11 @@ def test_link_create_user(page, test_web_address):
 
     expect(h5_tag).to_have_text("Create New User")
 
+def test_detail_vew(page, test_web_address):
+    page.goto(f"http://{test_web_address}/spaces/detail/1")
+    name_tag = page.locator('.card-title')
+    expect(name_tag).to_have_text('MYPLACE1 £10.0')
 
-    # # We look at the <p> tag
-    # strong_tag = page.locator("p")
-
-    # # We assert that it has the text "This is the homepage."
-    # expect(strong_tag).to_have_text("This is the homepage.")
-
-"""
-"""
+    dates = page.locator('.list-group-item')
+    expect(dates).to_have_text(['2023-10-29', '2023-10-30'])
+    
