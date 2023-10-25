@@ -33,7 +33,7 @@ def space_detail(id):
     date_repository = DateRepository(connection)
     dates = date_repository.filter_by_property('space_id', space.id)
 
-    return render_template('/spaces/datail.html', space=space, dates=dates)
+    return render_template('/spaces/detail.html', space=space, dates=dates)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):

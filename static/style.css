@@ -28,3 +28,6 @@ footer {
 .spacer {
     margin-top: 150px;
 }
+.size {
+    max-width: 50rem;
+} 
