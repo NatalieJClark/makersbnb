@@ -36,7 +36,6 @@ class UserRepository(BaseModelManager):
         # If that SELECT finds any rows, the password is correct.
         return len(rows) > 0
 
-    #TODO: Move it to BASE CLASS
     def update(self, user):
         binary_password = user.password.encode("utf-8")
         hashed_password = hashlib.sha256(binary_password).hexdigest()
@@ -46,4 +45,3 @@ class UserRepository(BaseModelManager):
             [user.email, user.username, hashed_password, user.id])
         
         return None
-    
