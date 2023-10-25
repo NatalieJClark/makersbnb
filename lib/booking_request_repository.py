@@ -19,8 +19,7 @@ class BookingRequestRepository(BaseModelManager):
             [booking_request.confirmed, booking_request.space_id, booking_request.date_id, booking_request.guest_id, booking_request.owner_id, booking_request.id])
         return None
 
-    # Returns booking request details as a dictionary
-
+    # Returns booking request details as a list of dictionaries
     # Keys:
     #       space_name, date, available, confirmed
     #       owners_username, owners_email, 
