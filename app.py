@@ -1,11 +1,14 @@
 import os
+import hashlib
 from flask import Flask, request, render_template, session, redirect
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.space_repo import SpaceRepository
 from lib.space import Space
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+app.secret_key = os.getenv("APP_SECRET_KEY")
 
 # Routes
 
@@ -24,7 +27,6 @@ def space_list():
     spaces = repo.all()
     return render_template('/spaces/list.html', spaces=spaces)
 
-
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
     connection = get_flask_database_connection(app)
@@ -35,17 +37,21 @@ def space_list_by_user(id):
 @app.route('/index', methods=['POST'])
 def login_post():
     connection = get_flask_database_connection(app)
-    username = request.form['username']
+    repo = UserRepository(connection)
+    print('hello')
+    email = request.form['email']
     password = request.form['password']
-
-    if UserRepository(connection).check_password(username, password):
-        user = UserRepository(connection).filter_by_property('username', username)
+    print(email)
+    print(password)
+    print(repo.check_password(email, password))
+    if repo.check_password(email, password):
+        rows = repo.filter_by_property('email', email)
+        user = rows[0]
         # set user id
         session['user_id'] = user.id
-
-        return render_template('home_page.html')
+        return render_template('/spaces/list.html', spaces=SpaceRepository(connection).all())
     else:
-        return render_template('login_error.html')
+        return render_template('/users/login_error.html')
     
 @app.route('/sign-up', methods=['POST'])
 def sign_up_post():
