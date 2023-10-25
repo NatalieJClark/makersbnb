@@ -33,8 +33,8 @@ class BaseModelManager:
         A method to return all objects filtered by a property
         where property is a column name, and value is the specific filtering parameter
         """
-        query = 'SELECT * FROM %s WHERE %s = %s;' % (self._table_name, property, value)
-        rows = self._connection.execute(query)
+        query = 'SELECT * FROM {} WHERE {} = %s;'.format(self._table_name, property)
+        rows = self._connection.execute(query, (value,))
         print(rows)
         return [self._model_class(**row) for row in rows]
 
