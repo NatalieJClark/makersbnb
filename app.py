@@ -25,6 +25,13 @@ def space_list():
     return render_template('/spaces/list.html', spaces=spaces)
 
 
+@app.route('/users/<int:id>/spaces')
+def space_list_by_user(id):
+    connection = get_flask_database_connection(app)
+    repo = SpaceRepository(connection)
+    spaces = repo.filter_by_property("user_id", id)
+    return render_template('/spaces/list.html', spaces=spaces)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5000)))

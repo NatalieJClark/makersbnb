@@ -1,7 +1,15 @@
 {% extends "/components/base.html" %}
 
 {% block content %}
-
+    {% if request.endpoint == 'space_list_by_user' %}
+    <div class="text-center my-5">
+        <h1>My Spaces</h1>
+    </div>
+    {% else %}
+    <div class="text-center my-5">
+        <h1>Welcome to Makers B&B</h1>
+    </div>
+    {% endif %}
     <div class="container text-center">
         <div class="row row-cols-3">
             {% for space in spaces %}

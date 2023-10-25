@@ -7,10 +7,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="{{url_for('space_list')}}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('get_index')}}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">My spaces</a>
           </li>
         </ul>
       </div>
