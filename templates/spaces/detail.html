@@ -1,0 +1,46 @@
+{% extends "/components/base.html" %}
+
+{%block content%}
+<div class="container spacer w-75 mx-auto">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card m-3 text-center m-0 p-0 size" >
+                <div class="card-body">
+                <h2 class="card-title">{{space.name|upper}} £{{space.price}}</h5>
+                <p class="card-text">{{space.description}}</p>
+                <p>
+                    <span>
+                        {{space.size}}sqm
+                    </span>
+                    <span>
+                        {{space.location}}
+                    </span>
+                </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                    {% for date in dates %}
+                    {% if date.available == True %}
+                    <li class="list-group-item bg-success">
+                        {{date.date}}
+                        <button class="btn btn-light">Book now</button>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item bg-danger">{{date.date}}</li>
+                    {%endif%}
+                    {% endfor %}
+                </ul>
+              </div>
+    
+        </div>
+    </div>
+</div>
+
+
+
+
+{%endblock content %}
+
