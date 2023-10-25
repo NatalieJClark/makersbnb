@@ -1,9 +1,9 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, redirect
 from lib.database_connection import get_flask_database_connection
+from lib.user_repository import UserRepository
 from lib.space_repo import SpaceRepository
 from lib.space import Space
-
 
 app = Flask(__name__)
 
@@ -32,6 +32,47 @@ def space_list_by_user(id):
     spaces = repo.filter_by_property("user_id", id)
     return render_template('/spaces/list.html', spaces=spaces)
 
+@app.route('/index', methods=['POST'])
+def login_post():
+    connection = get_flask_database_connection(app)
+    username = request.form['username']
+    password = request.form['password']
 
+    if UserRepository(connection).check_password(username, password):
+        user = UserRepository(connection).filter_by_property('username', username)
+        # set user id
+        session['user_id'] = user.id
+
+        return render_template('home_page.html')
+    else:
+        return render_template('login_error.html')
+    
+@app.route('/sign-up', methods=['POST'])
+def sign_up_post():
+    connection = get_flask_database_connection(app)
+
+    email = request.form('email')
+    username = request.form['username']
+    password = request.form['password1']
+    confirm_password = request.form['password2']
+
+    if password == confirm_password:
+        user = UserRepository(connection)
+        user.create(email, username, password)
+
+# only if a user is signed-in
+# this route can be re used for any pages that are only available
+# if the user is logged in
+@app.route('/account_page') #can change page
+def account_page():
+    if 'user_id' not in session:
+        return redirect('/sign-up')
+    else:
+        return render_template('account.html')
+
+
+# These lines start the server if you run this file directly
+# They also start the server configured to use the test database
+# if started in test mode.
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
