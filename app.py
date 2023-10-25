@@ -65,6 +65,11 @@ def post_new():
     if password == confirm_password:
         user = UserRepository(connection)
         user.create(email, username, password)
+        print(user)
+        print(UserRepository(connection).all())
+    else:
+        error = "*Your passwords don't match. Please try again."
+        return render_template("users/new.html", errors=error), 400
     
     return render_template('spaces/list.html', spaces=SpaceRepository(connection).all())
 

@@ -17,6 +17,11 @@ Create User
                 <label class="form-label" for="username">Username</label>
                 <input class="form-control "type="text" name="username" id="username">
             </div>
+            {% if errors %}
+                <p class="text-danger">
+                {{errors}}
+                </p>
+            {% endif %}
             <div class="mb-3">
                 <label class="form-label" for="password1">Password</label>
                 <input class="form-control" type="password" name="password1" id="password1">
