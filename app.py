@@ -18,11 +18,11 @@ def get_index():
 
 @app.route('/index', methods=['POST'])
 def login_post():
-    email = request.form['email']
+    username = request.form['username']
     password = request.form['password']
 
-    if UserRepository.check_password(email, password):
-        user = UserRepository.filter_by_property('email', email)
+    if UserRepository.check_password(username, password):
+        user = UserRepository.filter_by_property('username', username)
         # set user id
         session['user_id'] = user.id
 
