@@ -92,3 +92,21 @@ def test_delete_user(db_connection):
         User(1, 'name1@cmail.com', 'user1', '0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e'),
         User(2, 'name2@cmail.com', 'user2', '6cf615d5bcaac778352a8f1f3360d23f02f34ec182e259897fd6ce485d7870d4')
     ]
+
+def test_filter_by_username(db_connection):
+    db_connection.seed("seeds/makers_bnb_library.sql")
+    repository = UserRepository(db_connection)
+    result = repository.filter_by_property('username', 'user2')
+    assert result == [User(2, 'name2@cmail.com', 'user2', '6cf615d5bcaac778352a8f1f3360d23f02f34ec182e259897fd6ce485d7870d4')]
+
+def test_filter_by_id(db_connection):
+    db_connection.seed("seeds/makers_bnb_library.sql")
+    repository = UserRepository(db_connection)
+    result = repository.filter_by_property('id', 2)
+    assert result == [User(2, 'name2@cmail.com', 'user2', '6cf615d5bcaac778352a8f1f3360d23f02f34ec182e259897fd6ce485d7870d4')]
+
+def test_filter_by_email(db_connection):
+    db_connection.seed("seeds/makers_bnb_library.sql")
+    repository = UserRepository(db_connection)
+    result = repository.filter_by_property('email', 'name2@cmail.com')
+    assert result == [User(2, 'name2@cmail.com', 'user2', '6cf615d5bcaac778352a8f1f3360d23f02f34ec182e259897fd6ce485d7870d4')]
