@@ -22,7 +22,7 @@ def test_create_single_user(db_connection):
     db_connection.seed("seeds/makers_bnb_library.sql")
     repository = UserRepository(db_connection)
     user = User(None, "Test email", "Test Username", "Test Password")
-    assert repository.create(user) == None
+    assert repository.create(user) == User(4, "Test email", "Test Username", "Test Password")
     assert repository.all() == [
         User(1, 'name1@cmail.com', 'name1', 'password1'),
         User(2, 'name2@cmail.com', 'name2', 'password2'),
@@ -56,6 +56,7 @@ def test_update_password(db_connection):
         User(1, 'new@email1', 'New User 1', '124A!12346'),
         User(2, 'name2@cmail.com', 'name2', 'password2'),
         User(3, 'name3@cmail.com', 'name3', 'password3'),
+        
     ]
 
 """

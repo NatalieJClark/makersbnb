@@ -1,12 +1,14 @@
-class User():
-    def __init__(self, id, email, username, password):
-        self.id = id
-        self.email = email
-        self.username = username
-        self.password = password
+from dataclasses import dataclass
 
-    def __eq__(self, other):
-        return self.__dict__ == other.__dict__
-    
+
+@dataclass
+class User:
+    """Base User class"""
+
+    id: int
+    email: str
+    username: str
+    password: str
+
     def __repr__(self):
         return f"{self.id}, {self.email}, {self.username}, {self.password}"
