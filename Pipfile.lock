@@ -2,6 +2,7 @@
     "_meta": {
         "hash": {
             "sha256": "54f943a4fcfd134916eb8177080ae80137f733e889f97ba05e20989312c68efb"
+
         },
         "pipfile-spec": 6,
         "requires": {
@@ -422,6 +423,7 @@
             "index": "pypi",
             "markers": "python_version >= '3.8'",
             "version": "==0.23.0"
+
         },
         "python-dotenv": {
             "hashes": [
