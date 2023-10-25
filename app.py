@@ -16,6 +16,10 @@ app = Flask(__name__)
 def get_index():
     return render_template('index.html')
 
+@app.route('/sign-up', methods=['GET'])
+def get_signup():
+    return render_template('sign_up.html')
+
 @app.route('/index', methods=['POST'])
 def login_post():
     username = request.form['username']
@@ -29,6 +33,17 @@ def login_post():
         return render_template('home_page.html')
     else:
         return render_template('login_error.html')
+    
+@app.route('/sign-up', methods=['POST'])
+def sign_up_post():
+    email = request.form('email')
+    username = request.form['username']
+    password = request.form['password1']
+    confirm_password = request.form['password2']
+
+    if password == confirm_password:
+        user = UserRepository()
+        user.create(email, username, password)
 
 # only if a user is signed-in
 # this route can be re used for any pages that are only available
@@ -36,7 +51,7 @@ def login_post():
 @app.route('/account_page') #can change page
 def account_page():
     if 'user_id' not in session:
-        return redirect('/index')
+        return redirect('/sign-up')
     else:
         return render_template('account.html')
 
