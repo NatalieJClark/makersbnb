@@ -18,7 +18,7 @@ def get_index():
 
 @app.route('/users/new', methods=['GET'])
 def get_new_user():
-    return render_template('/users/create.html')
+    return render_template('/users/new.html')
 
 @app.route('/spaces/list')
 def space_list():
@@ -53,11 +53,11 @@ def login_post():
     else:
         return render_template('/users/login_error.html')
     
-@app.route('/sign-up', methods=['POST'])
-def sign_up_post():
+@app.route('/users/new', methods=['POST'])
+def post_new():
     connection = get_flask_database_connection(app)
 
-    email = request.form('email')
+    email = request.form['email']
     username = request.form['username']
     password = request.form['password1']
     confirm_password = request.form['password2']
@@ -65,6 +65,8 @@ def sign_up_post():
     if password == confirm_password:
         user = UserRepository(connection)
         user.create(email, username, password)
+    
+    return render_template('spaces/list.html', spaces=SpaceRepository(connection).all())
 
 # only if a user is signed-in
 # this route can be re used for any pages that are only available
