@@ -38,9 +38,12 @@ class UserRepository(BaseModelManager):
 
     #TODO: Move it to BASE CLASS
     def update(self, user):
+        binary_password = user.password.encode("utf-8")
+        hashed_password = hashlib.sha256(binary_password).hexdigest()
+
         self._connection.execute(
-            'UPDATE users SET email = %s, username = %s, password = %s WHERE id = %s',
-            [user.email, user.username, user.password, user.id])
+            'UPDATE users SET email = %s, password = %s WHERE id = %s',
+            [user.email, hashed_password, user.id])
         
         return None
     
