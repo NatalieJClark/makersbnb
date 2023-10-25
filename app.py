@@ -22,11 +22,12 @@ def get_signup():
 
 @app.route('/index', methods=['POST'])
 def login_post():
+    connection = get_flask_database_connection(app)
     username = request.form['username']
     password = request.form['password']
 
-    if UserRepository.check_password(username, password):
-        user = UserRepository.filter_by_property('username', username)
+    if UserRepository(connection).check_password(username, password):
+        user = UserRepository(connection).filter_by_property('username', username)
         # set user id
         session['user_id'] = user.id
 
@@ -36,13 +37,15 @@ def login_post():
     
 @app.route('/sign-up', methods=['POST'])
 def sign_up_post():
+    connection = get_flask_database_connection(app)
+
     email = request.form('email')
     username = request.form['username']
     password = request.form['password1']
     confirm_password = request.form['password2']
 
     if password == confirm_password:
-        user = UserRepository()
+        user = UserRepository(connection)
         user.create(email, username, password)
 
 # only if a user is signed-in
