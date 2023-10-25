@@ -19,6 +19,10 @@ def get_index():
 def get_new_user():
     return render_template("/users/create.html")
 
+@app.route('/spaces/list')
+def space_list():
+    return render_template('/spaces/list.html')
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
