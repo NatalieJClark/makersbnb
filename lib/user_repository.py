@@ -1,39 +1,47 @@
 from lib.user import User
+from lib.base_repository_class import BaseModelManager
+import hashlib
 
-class UserRepository():
-    def __init__(self, connection):
-        self.connection = connection
 
-    def all(self):
-        rows = self.connection.execute('SELECT * FROM users ORDER BY id')
-        users = []
-        for row in rows:
-            user = User(row['id'], row['email'], row['username'], row['password'])
-            users.append(user)
-        return users
-    
-    def create(self, user):
-        self.connection.execute(
-            'INSERT INTO users (email, username, password) VALUES (%s, %s, %s)',
-            [user.email, user.username, user.password]
+class UserRepository(BaseModelManager):
+    def __init__(self, connection) -> None:
+        super().__init__(connection)
+        self._model_class = User
+        self._table_name = 'users'
+
+    def create(self, email, username, password):
+        #hash the password
+        binary_password = password.encode("utf-8")
+        hashed_password = hashlib.sha256(binary_password).hexdigest()
+
+        rows = self._connection.execute(
+            'INSERT INTO users (email, username, password) VALUES (%s, %s, %s) RETURNING id',
+            [email, username, hashed_password]
         )
-        return None
-    
-    def find(self, id):
-        rows = self.connection.execute(
-            'SELECT * FROM users WHERE id = %s', [id]
+        # user.id = rows[0].get('id')
+        # return user
+
+    def check_password(self, username, password_attempt):
+        # hash the password attempt
+        binary_password_attempt = password_attempt.encode("utf-8")
+        hashed_password_attempt = hashlib.sha256(binary_password_attempt).hexdigest()
+
+        # Check whether there is a user in the database with the given email
+        # and a matching password hash, using a SELECT statement.
+        rows = self._connection.execute(
+            'SELECT * FROM users WHERE username = %s AND password = %s',
+            [username, hashed_password_attempt]
         )
-        row = rows[0]
-        return User(row['id'], row['email'], row['username'], row['password'])
-    
+
+        # If that SELECT finds any rows, the password is correct.
+        return len(rows) > 0
+
     def update(self, user):
-        self.connection.execute(
+        binary_password = user.password.encode("utf-8")
+        hashed_password = hashlib.sha256(binary_password).hexdigest()
+
+        self._connection.execute(
             'UPDATE users SET email = %s, username = %s, password = %s WHERE id = %s',
-            [user.email, user.username, user.password, user.id])
-        return None
-    
-    def delete(self, user_id):
-        self.connection.execute(
-            'DELETE FROM users WHERE id = %s', [user_id]
-        )
+            [user.email, user.username, hashed_password, user.id])
+        
         return None

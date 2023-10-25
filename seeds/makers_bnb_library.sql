@@ -11,8 +11,8 @@ DROP SEQUENCE IF EXISTS bookings_id_seq;
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email text,
     username text,
+    email text,
     password text
 );
 
@@ -64,9 +64,9 @@ CREATE TABLE bookings (
     on delete cascade
 );
 
-INSERT INTO users (email, username, password) VALUES ('name1@cmail.com', 'name1', 'password1');
-INSERT INTO users (email, username, password) VALUES ('name2@cmail.com', 'name2', 'password2');
-INSERT INTO users (email, username, password) VALUES ('name3@cmail.com', 'name3', 'password3');
+INSERT INTO users (email, username, password) VALUES ('name1@cmail.com', 'user1', '0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e');
+INSERT INTO users (email, username, password) VALUES ('name2@cmail.com', 'user2','6cf615d5bcaac778352a8f1f3360d23f02f34ec182e259897fd6ce485d7870d4');
+INSERT INTO users (email, username, password) VALUES ('name3@cmail.com', 'user3','5906ac361a137e2d286465cd6588ebb5ac3f5ae955001100bc41577c3d751764');
 
 INSERT INTO spaces (name, description, size, location, price, user_id) VALUES ('myplace1', '1 this is a description', 40, 'E10 9BY', 10.0, 1);
 INSERT INTO spaces (name, description, size, location, price, user_id) VALUES ('myplace2', '2 this is a description', 50, 'N1 9UY', 15.0, 1);
