@@ -13,5 +13,8 @@ class BookingRepository(BaseModelManager):
         return None
 
 
-    def update(self, booking_id):
-        pass
+    def update(self, booking):
+        self._connection.execute(
+            'UPDATE bookings SET confirmed = %s, space_id = %s, date_id = %s, guest_id = %s, owner_id = %s WHERE id = %s',
+            [booking.confirmed, booking.space_id, booking.date_id, booking.guest_id, booking.owner_id, booking.id])
+        return None
