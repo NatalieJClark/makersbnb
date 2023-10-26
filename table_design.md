@@ -52,7 +52,7 @@ I’d like to see a description, inc size, price etc
 
 As a user
 So that I can book a space for the night
-I want to send a booking request 
+I want to send a booking_request request 
 
 As a user
 So that no-one else can use my booked space
@@ -72,7 +72,7 @@ Nouns:
 users, email, username, password
 spaces, name, description, size, location, price, user_id
 dates, date, is_available, space_id
-bookings, is_confirmed, space_id, date_id, user_id(booker)
+booking_requests, is_confirmed, space_id, date_id, user_id(booker)
 
 
 
@@ -87,7 +87,7 @@ Put the different nouns in this table. Replace the example with your own nouns.
 |  users        |    email, username, password                                |
 |  spaces       |    name, description, size, location, price, user_id        |
 |  dates        |    date, is_available, space_id                             |
-|  bookings     |    is_confirmed, space_id, date_id, user_id(booker)         |
+|  booking_requests     |    is_confirmed, space_id, date_id, user_id(booker)         |
 
 
 ## 3. Decide the column types
@@ -122,7 +122,7 @@ date: date
 is_available: boolean
 space_id: int foreign key
 
-Table: bookings
+Table: booking_requests
 id: SERIAL
 is_confirmed: boolean
 space_id: int foreign key
@@ -177,14 +177,14 @@ CREATE TABLE dates (
     on delete cascade
 );
 
-CREATE TABLE bookings (
+CREATE TABLE booking_requests (
     id SERIAL PRIMARY KEY,
     is_confirmed boolean,
     space_id int,
     date_id int,
     booker_id int,
     owner_id int,
-    constraint fk_spaces_bookings foreign key(space_id)
+    constraint fk_spaces_booking_requests foreign key(space_id)
     references spaces(id)
     on delete cascade,
     constraint fk_dates foreign key(date_id)
