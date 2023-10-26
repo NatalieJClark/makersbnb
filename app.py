@@ -24,8 +24,10 @@ def get_new_user():
 def space_list():
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
+    logged = check_login_status()
+    print(f"!!!!!!!!!!!{logged}")
     spaces = repo.all()
-    return render_template('/spaces/list.html', spaces=spaces)
+    return render_template('/spaces/list.html', spaces=spaces, logged=logged)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
@@ -38,12 +40,8 @@ def space_list_by_user(id):
 def login():
     connection = get_flask_database_connection(app)
     repo = UserRepository(connection)
-    print('hello')
     email = request.form['email']
     password = request.form['password']
-    print(email)
-    print(password)
-    print(repo.check_password(email, password))
     if repo.check_password(email, password):
         rows = repo.filter_by_property('email', email)
         user = rows[0]
@@ -83,6 +81,12 @@ def account_page():
         return redirect('/sign-up')
     else:
         return render_template('account.html')
+
+def check_login_status():
+    # global method to check if user is logged in
+    if 'user_id' not in session:
+        return False
+    return True
 
 
 # These lines start the server if you run this file directly
