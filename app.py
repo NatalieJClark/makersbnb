@@ -112,7 +112,6 @@ def account_page():
     else:
         return render_template('account.html')
     
-
 @app.route('/user/requests', methods = ['GET', 'POST'])
 def request_list():
     connection = get_flask_database_connection(app)
@@ -124,8 +123,18 @@ def request_list():
         booking = booking_request_repo.find(booking_id)
         booking.confirmed = True
         booking_request_repo.update(booking)
+        flash("Booking has been confirmed.")
         return redirect(url_for('request_list'))
     return render_template('/bookings/list.html', bookings=bookings)
+
+@app.route('/user/mybookings', methods = ['GET', 'POST'])
+def my_bookings_list():
+    connection = get_flask_database_connection(app)
+    booking_request_repo = BookingRequestRepository(connection)
+    guest_id = session.get('user_id')
+    bookings = booking_request_repo.find_request_details('guests.id', guest_id)
+    return render_template('/bookings/booking_list.html', bookings=bookings)
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

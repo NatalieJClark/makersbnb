@@ -7,7 +7,7 @@
         <th scope="col">Space Name</th>
         <th scope="col">Booking Date</th>
         <th scope="col">Confirmed</th>
-        <th class="test-requests" scope="col">Guest Email</th>
+        <th class="test-bookings" scope="col">Owner Email</th>
       </tr>
     </thead>
     <tbody>
@@ -16,15 +16,8 @@
         <th scope="row">1</th>
         <td>{{booking.space_name}}</td>
         <td>{{booking.date}}</td>
-        <td class="test-confirmed">{{booking.confirmed}}
-            <form action="" method="POST">
-                <input type="text" value="{{booking.id}}" hidden name="booking_id">
-                {% if booking.confirmed == False %}
-                <input class="btn btn-success" type="submit" value="Confirm Booking">
-                {% endif %}
-            </form>
-        </td>
-        <td>{{booking.guests_email}}</td>
+        <td>{{booking.confirmed}}</td>
+        <td>{{booking.owners_email}}</td>
       </tr>
     {% endfor %}
     </tbody>
