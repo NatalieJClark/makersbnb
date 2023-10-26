@@ -1,7 +1,6 @@
 import os
-from flask import Flask, request, render_template, session, redirect, sessions
+from flask import Flask, request, render_template, session, redirect, url_for, flash
 import hashlib
-from flask import Flask, request, render_template, session, redirect, url_for
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.space_repo import SpaceRepository
@@ -53,7 +52,7 @@ def space_detail(id):
             owner_id=space.user_id
             )
         booking_request_repository.create(booking_request)
-       
+        flash("Your booking has been created. You will receive the confirmation once it is confirmed :)")
     return render_template('/spaces/detail.html', space=space, dates=dates)
 
 @app.route('/users/<int:id>/spaces')
