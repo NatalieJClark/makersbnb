@@ -41,15 +41,17 @@ def space_detail(id):
     space = space_repository.find(id)
     date_repository = DateRepository(connection)
     dates = date_repository.filter_by_property('space_id', space.id)
+    
 
-    return render_template('/spaces/detail.html', space=space, dates=dates)
+    return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
     spaces = repo.filter_by_property("user_id", id)
-    return render_template('/spaces/list.html', spaces=spaces)
+    logged = check_login_status()
+    return render_template('/spaces/list.html', spaces=spaces, logged=logged)
 
 @app.route('/index', methods=['POST'])
 def login():
@@ -62,6 +64,7 @@ def login():
         user = rows[0]
         # set user id
         session['user_id'] = user.id
+        
         return redirect(url_for('space_list'))
     else:
         error = "*Email and Password don't match. Please try again."
@@ -91,6 +94,7 @@ def user_create():
 def space_create():
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
+    logged = check_login_status()
     if request.method == 'POST':
         name = request.form.get('name')
         description = request.form.get('description')
@@ -101,9 +105,9 @@ def space_create():
         space = Space(None, name, description, size, location, price, owner_id)
         repo.create(space)
 
-        return redirect(url_for('space_list_by_user', id=owner_id))
+        return redirect(url_for('space_list_by_user', id=owner_id, logged=logged))
     else:
-        return render_template('/spaces/new.html')
+        return render_template('/spaces/new.html', logged=logged)
 
 
 
