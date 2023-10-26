@@ -71,7 +71,7 @@ def user_create():
         error = "*Your passwords don't match. Please try again."
         return render_template("users/new.html", errors=error), 400
     
-    return redirect(url_for('get_index'))
+    return redirect(url_for('get_login'))
 
 # only if a user is signed-in
 # this route can be re used for any pages that are only available

@@ -4,8 +4,8 @@ DROP TABLE IF EXISTS spaces CASCADE;
 DROP SEQUENCE IF EXISTS spaces_id_seq;
 DROP TABLE IF EXISTS dates CASCADE;
 DROP SEQUENCE IF EXISTS dates_id_seq;
-DROP TABLE IF EXISTS bookings CASCADE;
-DROP SEQUENCE IF EXISTS bookings_id_seq;
+DROP TABLE IF EXISTS booking_requests CASCADE;
+DROP SEQUENCE IF EXISTS booking_requests_id_seq;
 
 
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
@@ -42,15 +42,15 @@ CREATE TABLE dates (
 );
 CREATE INDEX idx_space_id ON dates (space_id);
 
-CREATE SEQUENCE IF NOT EXISTS bookings_id_seq;
-CREATE TABLE bookings (
+CREATE SEQUENCE IF NOT EXISTS booking_requests_id_seq;
+CREATE TABLE booking_requests (
     id SERIAL PRIMARY KEY,
-    confirmed boolean,
+    confirmed boolean DEFAULT False,
     space_id int,
     date_id int,
     guest_id int,
     owner_id int,
-    constraint fk_spaces_bookings foreign key(space_id)
+    constraint fk_spaces_booking_requests foreign key(space_id)
     references spaces(id)
     on delete cascade,
     constraint fk_dates foreign key(date_id)
@@ -85,5 +85,5 @@ INSERT INTO dates (date, available, space_id) VALUES ('2023-10-01', False, 3);
 INSERT INTO dates (date, available, space_id) VALUES ('2023-10-02', False, 4);
 INSERT INTO dates (date, available, space_id) VALUES ('2023-10-03', False, 2);
 
-INSERT INTO bookings (confirmed, space_id, date_id, guest_id, owner_id) VALUES (True, 5, 5, 1, 3);
-INSERT INTO bookings (confirmed, space_id, date_id, guest_id, owner_id) VALUES (False, 3, 1, 3, 2);
+INSERT INTO booking_requests (confirmed, space_id, date_id, guest_id, owner_id) VALUES (True, 5, 5, 1, 3);
+INSERT INTO booking_requests (confirmed, space_id, date_id, guest_id, owner_id) VALUES (False, 3, 1, 3, 2);
