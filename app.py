@@ -111,7 +111,21 @@ def account_page():
         return redirect('/sign-up')
     else:
         return render_template('account.html')
+    
 
+@app.route('/user/requests', methods = ['GET', 'POST'])
+def request_list():
+    connection = get_flask_database_connection(app)
+    booking_request_repo = BookingRequestRepository(connection)
+    owner_id = session.get('user_id')
+    bookings = booking_request_repo.find_request_details('owners.id', owner_id)
+    if request.method == 'POST':
+        booking_id = request.form.get('booking_id')
+        booking = booking_request_repo.find(booking_id)
+        booking.confirmed = True
+        booking_request_repo.update(booking)
+        return redirect(url_for('request_list'))
+    return render_template('/bookings/list.html', bookings=bookings)
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
