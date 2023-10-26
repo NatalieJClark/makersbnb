@@ -116,7 +116,7 @@ def test_list_view(page, test_web_address, db_connection):
     page.goto(f"http://{test_web_address}/spaces/list")
     title_tag = page.locator('.card-title')
     expect(title_tag).to_have_text(
-        ['MYPLACE1 £10.0', 'MYPLACE2 £15.0', 'MYPLACE3 £20.0', 'MYPLACE4 £30.0', 'MYPLACE5 £18.0']
+        ['MYPLACE1 £10.00', 'MYPLACE2 £15.00', 'MYPLACE3 £20.00', 'MYPLACE4 £30.00', 'MYPLACE5 £18.00']
         )
 
 def test_list_spaces_by_user_id(page, test_web_address, db_connection):
@@ -124,7 +124,7 @@ def test_list_spaces_by_user_id(page, test_web_address, db_connection):
 
     page.goto(f"http://{test_web_address}/users/1/spaces")
     title_tag = page.locator('.card-title')
-    expect(title_tag).to_have_text(['MYPLACE1 £10.0', 'MYPLACE2 £15.0'])
+    expect(title_tag).to_have_text(['MYPLACE1 £10.00', 'MYPLACE2 £15.00'])
 
 def test_see_more_button(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
