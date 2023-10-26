@@ -45,7 +45,7 @@ CREATE INDEX idx_space_id ON dates (space_id);
 CREATE SEQUENCE IF NOT EXISTS booking_requests_id_seq;
 CREATE TABLE booking_requests (
     id SERIAL PRIMARY KEY,
-    confirmed boolean,
+    confirmed boolean DEFAULT False,
     space_id int,
     date_id int,
     guest_id int,

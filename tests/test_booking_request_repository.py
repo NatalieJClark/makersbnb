@@ -22,7 +22,7 @@ Which is reflected in the list when we call BookingRequestRepository#all
 def test_create_single_booking_request(db_connection):
     db_connection.seed("seeds/makers_bnb_library.sql")
     repository = BookingRequestRepository(db_connection)
-    booking_request = BookingRequest(None, False, 1, 2, 3, 1)
+    booking_request = BookingRequest(None, None, 1, 2, 3, 1)
     assert repository.create(booking_request) == None
     assert repository.all() == [
         BookingRequest(1, True, 5, 5, 1, 3),

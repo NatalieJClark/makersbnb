@@ -8,8 +8,8 @@ class BookingRequestRepository(BaseModelManager):
         self._table_name = "booking_requests"
 
     def create(self, booking_request):
-        self._connection.execute('INSERT INTO booking_requests (confirmed, space_id, date_id, guest_id, owner_id) VALUES (%s, %s, %s, %s, %s)',
-        [False, booking_request.space_id, booking_request.date_id, booking_request.guest_id, booking_request.owner_id])
+        self._connection.execute('INSERT INTO booking_requests (space_id, date_id, guest_id, owner_id) VALUES (%s, %s, %s, %s)',
+        [booking_request.space_id, booking_request.date_id, booking_request.guest_id, booking_request.owner_id])
         return None
 
 
