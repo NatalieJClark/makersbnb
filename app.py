@@ -1,6 +1,6 @@
 import os
 import hashlib
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, url_for
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.space_repo import SpaceRepository
@@ -13,7 +13,7 @@ app.secret_key = os.getenv("APP_SECRET_KEY")
 # Routes
 
 @app.route('/index', methods=['GET'])
-def get_index():
+def get_login():
     return render_template('/index.html')
 
 @app.route('/users/new', methods=['GET'])
@@ -35,7 +35,7 @@ def space_list_by_user(id):
     return render_template('/spaces/list.html', spaces=spaces)
 
 @app.route('/index', methods=['POST'])
-def login_post():
+def login():
     connection = get_flask_database_connection(app)
     repo = UserRepository(connection)
     print('hello')
@@ -54,7 +54,7 @@ def login_post():
         return render_template('/users/login_error.html')
     
 @app.route('/users/new', methods=['POST'])
-def post_new():
+def user_create():
     connection = get_flask_database_connection(app)
 
     email = request.form['email']
@@ -71,7 +71,7 @@ def post_new():
         error = "*Your passwords don't match. Please try again."
         return render_template("users/new.html", errors=error), 400
     
-    return render_template('spaces/list.html', spaces=SpaceRepository(connection).all())
+    return redirect(url_for('get_index'))
 
 # only if a user is signed-in
 # this route can be re used for any pages that are only available

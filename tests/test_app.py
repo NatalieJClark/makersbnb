@@ -1,4 +1,5 @@
 from playwright.sync_api import Page, expect
+import time
 
 # Tests for your routes go here
 
@@ -21,12 +22,13 @@ def test_link_create_user(page, test_web_address):
     h5_tag = page.locator('h5')
     expect(h5_tag).to_have_text("Create New User")
 
-# def test_user_new_match_passwords(page, test_web_address):
-#     page.goto(f"http://{test_web_address}/users/new")
-#     page.fill("input[name=email]", "email@email.co")
-#     page.fill("input[name=username]", "new_user")
-#     page.fill("input[name=password1]", "e1234x")
-#     page.fill("input[name=password2]", "e1234x")
-#     page.click("text=Create New User")
-#     h1_tag = page.locator('h1')
-#     expect(h1_tag).to_have_text("Welcome to Makers B&B")
+def test_user_create_match_passwords(page, test_web_address):
+    page.goto(f"http://{test_web_address}/users/new")
+    page.fill("input[name=email]", "email@email.co")
+    page.fill("input[name=username]", "new_user")
+    page.fill("input[name=password1]", "e1234x")
+    page.fill("input[name=password2]", "e1234x")
+    page.locator(".btn").click()
+    page.screenshot(path="screenshot.png")
+    h5_tag = page.locator('h5')
+    expect(h5_tag).to_have_text("Login Here")
