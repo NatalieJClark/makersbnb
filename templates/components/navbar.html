@@ -10,11 +10,17 @@
             <a class="nav-link active" aria-current="page" href="{{url_for('space_list')}}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('get_login')}}">Login</a>
+            {% if logged %}
+              <a class="t-logout nav-link" href="{{ url_for('logout')}}">Log Out</a>
+            {% else %}
+              <a class="t-login nav-link" href="{{ url_for('get_login')}}">Login</a> 
+            {% endif %}
           </li>
+          {% if logged %}
           <li class="nav-item">
             <a class="nav-link" href="#">My spaces</a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
