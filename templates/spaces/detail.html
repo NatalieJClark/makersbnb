@@ -26,14 +26,17 @@
                     {% if date.available == True %}
                     <li class="list-group-item bg-success">
                         {{date.date}}
-                        <button class="btn btn-light">Book now</button>
+                        <form action="" method="POST">
+                            <input class="btn btn-light" value="Book Now" type="submit">
+                            <input name="date" value="{{date.id}}" hidden>
+                        </form>
                     </li>
                     {% else %}
                     <li class="list-group-item bg-danger">{{date.date}}</li>
                     {%endif%}
                     {% endfor %}
                 </ul>
-              </div>
+            </div>
     
         </div>
     </div>

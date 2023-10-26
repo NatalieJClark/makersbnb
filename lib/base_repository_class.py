@@ -1,5 +1,4 @@
 class BaseModelManager:
-
     """
     Base Repository motel with all CRUD methods.
     Implement create method on child models.

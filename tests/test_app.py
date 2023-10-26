@@ -126,7 +126,6 @@ def test_list_spaces_by_user_id(page, test_web_address, db_connection):
     title_tag = page.locator('.card-title')
     expect(title_tag).to_have_text(['MYPLACE1 £10.0', 'MYPLACE2 £15.0'])
 
-
 def test_see_more_button(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
 
@@ -136,3 +135,25 @@ def test_see_more_button(page, test_web_address, db_connection):
     title_tag = page.locator('.card-title')
     expect(title_tag).to_have_text('MYPLACE1 £10.0')
 
+def test_request_list(page, test_web_address, db_connection):
+    db_connection.seed('seeds/makers_bnb_library.sql')
+    page.goto(f"http://{test_web_address}/user/requests")
+    test_class = page.locator('.test-requests')
+    expect(test_class).to_have_text('Guest Email')
+
+def test_my_bookings(page, test_web_address, db_connection):
+    db_connection.seed('seeds/makers_bnb_library.sql')
+    page.goto(f"http://{test_web_address}/user/mybookings")
+    test_class = page.locator('.test-bookings')
+    expect(test_class).to_have_text('Owner Email')
+
+def test_request_list_confirm(page, test_web_address, db_connection):
+    db_connection.seed('seeds/makers_bnb_library.sql')
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name2@cmail.com")
+    page.fill("input[name=password]", "password2")
+    page.locator(".btn").click()
+    page.goto(f"http://{test_web_address}/user/requests")
+    page.locator(".btn").click()
+    test_confirmed = page.locator('.test-confirmed')
+    expect(test_confirmed).to_have_text('True')
