@@ -1,0 +1,25 @@
+{% extends 'components/base.html' %}
+{% block content %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Space Name</th>
+        <th scope="col">Booking Date</th>
+        <th scope="col">Confirmed</th>
+        <th class="test-bookings" scope="col">Owner Email</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for booking in bookings %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{booking.space_name}}</td>
+        <td>{{booking.date}}</td>
+        <td>{{booking.confirmed}}</td>
+        <td>{{booking.owners_email}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

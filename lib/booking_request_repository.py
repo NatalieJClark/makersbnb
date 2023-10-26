@@ -26,7 +26,8 @@ class BookingRequestRepository(BaseModelManager):
     #       guest_username, guests_email
     def find_request_details(self, property, value):
         query = """
-        SELECT spaces.name AS space_name, 
+        SELECT booking_requests.id,
+                spaces.name AS space_name, 
                 dates.date, dates.available,
                 booking_requests.confirmed,
                 owners.username AS owners_username,

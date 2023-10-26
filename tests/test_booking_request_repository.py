@@ -83,6 +83,7 @@ def test_find_request_details_by_guest_id(db_connection):
     repository = BookingRequestRepository(db_connection)
     result = repository.find_request_details('guests.id', 1)
     assert result == [{
+        'id': 1,
         'space_name': 'myplace5',
         'date': datetime.date(2023, 10, 28), 
         'available': False, 'confirmed': True, 
@@ -102,6 +103,7 @@ def test_find_request_details_by_owner_id(db_connection):
     repository = BookingRequestRepository(db_connection)
     result = repository.find_request_details('owners.id', 2)
     assert result == [{
+        'id': 2,
         'space_name': 'myplace3',
         'date': datetime.date(2023, 10, 24), 
         'available': True, 'confirmed': False, 
@@ -116,6 +118,7 @@ def test_find_request_details_by_guest_username(db_connection):
     repository = BookingRequestRepository(db_connection)
     result = repository.find_request_details('guests.username', 'user1')
     assert result == [{
+        'id': 1,
         'space_name': 'myplace5',
         'date': datetime.date(2023, 10, 28), 
         'available': False, 'confirmed': True, 
