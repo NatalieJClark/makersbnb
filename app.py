@@ -79,7 +79,8 @@ def login():
         session['user_id'] = user.id
         return render_template('/spaces/list.html', spaces=SpaceRepository(connection).all())
     else:
-        return render_template('/users/login_error.html')
+        error = "*Email and Password don't match. Please try again."
+        return render_template('/index.html', errors=error), 400
     
 @app.route('/users/new', methods=['POST'])
 def user_create():
