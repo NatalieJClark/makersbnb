@@ -87,15 +87,25 @@ def user_create():
     
     return redirect(url_for('get_login'))
 
-# only if a user is signed-in
-# this route can be re used for any pages that are only available
-# if the user is logged in
-@app.route('/account_page') #can change page
-def account_page():
-    if 'user_id' not in session:
-        return redirect('/sign-up')
+@app.route('/spaces/new', methods=['GET', 'POST'])
+def space_create():
+    connection = get_flask_database_connection(app)
+    repo = SpaceRepository(connection)
+    if request.method == 'POST':
+        name = request.form.get('name')
+        description = request.form.get('description')
+        size = request.form.get('size')
+        location = request.form.get('location')
+        price = request.form.get('price')
+        owner_id = session.get('user_id')
+        space = Space(None, name, description, size, location, price, owner_id)
+        repo.create(space)
+
+        return redirect(url_for('space_list_by_user', id=owner_id))
     else:
-        return render_template('account.html')
+        return render_template('/spaces/new.html')
+
+
 
 def check_login_status():
     # global method to check if user is logged in
