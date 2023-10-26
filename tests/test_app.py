@@ -1,5 +1,7 @@
 from playwright.sync_api import Page, expect
 import time
+from flask import session
+
 
 # Tests for your routes go here
 
@@ -85,3 +87,16 @@ def test_navbar_logout(page, test_web_address):
     page.locator(".btn").click()
     logout_tag = page.locator('.t-logout')
     expect(logout_tag).to_have_text('Log Out')
+
+"""
+When we click log-out, our session ends
+"""
+# def test_logout_ends_session(page, test_web_address):
+#     page.set_default_timeout(1000)
+#     page.goto(f"http://{test_web_address}/index")
+#     page.fill("input[name=email]", "name3@cmail.com")
+#     page.fill("input[name=password]", "password3")
+#     page.locator(".btn").click()
+#     page.click("text=Log Out")
+#     assert dict(session) == {}
+    

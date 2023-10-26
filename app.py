@@ -16,6 +16,11 @@ app.secret_key = os.getenv("APP_SECRET_KEY")
 def get_login():
     return render_template('/index.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('get_login'))
+
 @app.route('/users/new', methods=['GET'])
 def get_new_user():
     return render_template('/users/new.html')
@@ -24,9 +29,9 @@ def get_new_user():
 def space_list():
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
-    # logged = check_login_status()
+    logged = check_login_status()
     spaces = repo.all()
-    return render_template('/spaces/list.html', spaces=spaces)
+    return render_template('/spaces/list.html', spaces=spaces, logged=logged)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
@@ -46,9 +51,7 @@ def login():
         user = rows[0]
         # set user id
         session['user_id'] = user.id
-        # Set the login status
-        logged = check_login_status()
-        return render_template('/spaces/list.html', spaces=SpaceRepository(connection).all(), logged=logged)
+        return redirect(url_for('space_list'))
     else:
         error = "*Email and Password don't match. Please try again."
         return render_template('/index.html', errors=error), 400
