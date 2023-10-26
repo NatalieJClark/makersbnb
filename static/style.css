@@ -24,3 +24,10 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.spacer {
+    margin-top: 150px;
+}
+.size {
+    max-width: 50rem;
+} 

@@ -6,6 +6,7 @@ from lib.user_repository import UserRepository
 from lib.space_repo import SpaceRepository
 from lib.space import Space
 from dotenv import load_dotenv
+from lib.date_repositoty import DateRepository
 
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
@@ -32,6 +33,16 @@ def space_list():
     logged = check_login_status()
     spaces = repo.all()
     return render_template('/spaces/list.html', spaces=spaces, logged=logged)
+
+@app.route('/spaces/detail/<id>')
+def space_detail(id):
+    connection = get_flask_database_connection(app)
+    space_repository = SpaceRepository(connection)
+    space = space_repository.find(id)
+    date_repository = DateRepository(connection)
+    dates = date_repository.filter_by_property('space_id', space.id)
+
+    return render_template('/spaces/detail.html', space=space, dates=dates)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
