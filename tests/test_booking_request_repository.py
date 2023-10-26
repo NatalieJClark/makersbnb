@@ -110,3 +110,17 @@ def test_find_request_details_by_owner_id(db_connection):
         'guests_username': 'user3', 
         'guests_email': 'name3@cmail.com'
     }]
+
+def test_find_request_details_by_owner_id(db_connection):
+    db_connection.seed('seeds/makers_bnb_library.sql')
+    repository = BookingRequestRepository(db_connection)
+    result = repository.find_request_details('guests.username', 'user1')
+    assert result == [{
+        'space_name': 'myplace5',
+        'date': datetime.date(2023, 10, 28), 
+        'available': False, 'confirmed': True, 
+        'owners_username': 'user3', 
+        'owners_email': 'name3@cmail.com', 
+        'guests_username': 'user1', 
+        'guests_email': 'name1@cmail.com'
+    }]
