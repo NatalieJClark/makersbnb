@@ -29,6 +29,5 @@ def test_user_create_match_passwords(page, test_web_address):
     page.fill("input[name=password1]", "e1234x")
     page.fill("input[name=password2]", "e1234x")
     page.locator(".btn").click()
-    page.screenshot(path="screenshot.png")
     h5_tag = page.locator('h5')
     expect(h5_tag).to_have_text("Login Here")
