@@ -42,10 +42,26 @@ def test_user_create_no_password_match(page, test_web_address):
     error_tag = page.locator('.t-password-error')
     expect(error_tag).to_have_text("*Your passwords don't match. Please try again.")
 
-# def test_user_login_successfully(page, test_web_address):
-#     page.goto(f"http>//{test_web_address}/index")
-#     page.fill("input[name=email]", "name3@cmail.com")
-#     page.fill("input[name=password]", "password3")
-#     page.locator(".btn").click()
-#     h1_tag = page.locator('h1')
-#     expecte(h1_tag).to_have_text('Welcome to Makers B&B')
+def test_user_login_successfully(page, test_web_address):
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name3@cmail.com")
+    page.fill("input[name=password]", "password3")
+    page.locator(".btn").click()
+    h1_tag = page.locator('h1')
+    expect(h1_tag).to_have_text('Welcome to Makers B&B')
+
+def test_user_login_wrong_email(page, test_web_address):
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name10@cmail.com")
+    page.fill("input[name=password]", "password3")
+    page.locator(".btn").click()
+    error_tag = page.locator('.t-login-error')
+    expect(error_tag).to_have_text("*Email and Password don't match. Please try again.")
+
+def test_user_login_wrong_password(page, test_web_address):
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name1@cmail.com")
+    page.fill("input[name=password]", "password3")
+    page.locator(".btn").click()
+    error_tag = page.locator('.t-login-error')
+    expect(error_tag).to_have_text("*Email and Password don't match. Please try again.")
