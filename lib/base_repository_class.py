@@ -35,7 +35,6 @@ class BaseModelManager:
         """
         query = 'SELECT * FROM {} WHERE {} = %s;'.format(self._table_name, property)
         rows = self._connection.execute(query, (value,))
-        print(rows)
         return [self._model_class(**row) for row in rows]
 
     def create(self):
