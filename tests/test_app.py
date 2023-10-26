@@ -114,7 +114,9 @@ def test_my_bookings(page, test_web_address, db_connection):
 def test_request_list_confirm(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
     page.goto(f"http://{test_web_address}/index")
-    
+    page.fill("input[name=email]", "name2@cmail.com")
+    page.fill("input[name=password]", "password2")
+    page.locator(".btn").click()
     page.goto(f"http://{test_web_address}/user/requests")
     page.locator(".btn").click()
     test_confirmed = page.locator('.test-confirmed')
