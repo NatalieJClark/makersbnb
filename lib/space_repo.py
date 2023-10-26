@@ -32,4 +32,19 @@ class SpaceRepository(BaseModelManager):
         new_space.id = rows[0].get("id")
         return new_space
     
+    def update(self, updated_space):
+        query = 'UPDATE spaces SET name = %s, description = %s, size = %s, location = %s, price = %s WHERE id = %s;'
+        rows = self._connection.execute(
+            query, 
+            [
+                updated_space.name, 
+                updated_space.description, 
+                updated_space.size, 
+                updated_space.location, 
+                updated_space.price, 
+                updated_space.id
+            ]
+        )
+
+
     

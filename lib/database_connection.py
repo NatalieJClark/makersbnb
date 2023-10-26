@@ -11,6 +11,7 @@ class DatabaseConnection:
     DEV_DATABASE_NAME = os.getenv("DEV_DATABASE_NAME")
     TEST_DATABASE_NAME = os.getenv("TEST_DATABASE_NAME")
 
+
     def __init__(self, test_mode=False):
         self.test_mode = test_mode
 
