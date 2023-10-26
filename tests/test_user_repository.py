@@ -39,13 +39,13 @@ def test_create_single_user(db_connection):
 def test_check_password_true(db_connection):
     db_connection.seed("seeds/makers_bnb_library.sql")
     repository = UserRepository(db_connection)
-    result = repository.check_password('user1', 'password1')
+    result = repository.check_password('name1@cmail.com', 'password1')
     assert result == True
 
 def test_check_password_false(db_connection):
     db_connection.seed("seeds/makers_bnb_library.sql")
     repository = UserRepository(db_connection)
-    result = repository.check_password('user1', 'password9')
+    result = repository.check_password('name1@cmail.com', 'password9')
     assert result == False
 
 def test_check_email_false(db_connection):

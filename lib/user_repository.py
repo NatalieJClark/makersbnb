@@ -21,7 +21,7 @@ class UserRepository(BaseModelManager):
         # user.id = rows[0].get('id')
         # return user
 
-    def check_password(self, username, password_attempt):
+    def check_password(self, email, password_attempt):
         # hash the password attempt
         binary_password_attempt = password_attempt.encode("utf-8")
         hashed_password_attempt = hashlib.sha256(binary_password_attempt).hexdigest()
@@ -29,10 +29,9 @@ class UserRepository(BaseModelManager):
         # Check whether there is a user in the database with the given email
         # and a matching password hash, using a SELECT statement.
         rows = self._connection.execute(
-            'SELECT * FROM users WHERE username = %s AND password = %s',
-            [username, hashed_password_attempt]
+            'SELECT * FROM users WHERE email = %s AND password = %s',
+            [email, hashed_password_attempt]
         )
-
         # If that SELECT finds any rows, the password is correct.
         return len(rows) > 0
 
