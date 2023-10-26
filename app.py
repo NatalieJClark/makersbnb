@@ -1,10 +1,13 @@
 import os
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, sessions
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.space_repo import SpaceRepository
 from lib.space import Space
 from lib.date_repositoty import DateRepository
+from lib.booking_request import BookingRequest
+from lib.booking_request_repository import BookingRequestRepository
+
 
 app = Flask(__name__)
 
@@ -25,7 +28,7 @@ def space_list():
     spaces = repo.all()
     return render_template('/spaces/list.html', spaces=spaces)
 
-@app.route('/spaces/detail/<id>')
+@app.route('/spaces/detail/<id>', methods=['GET', 'POST'])
 def space_detail(id):
     connection = get_flask_database_connection(app)
     space_repository = SpaceRepository(connection)
@@ -33,6 +36,19 @@ def space_detail(id):
     date_repository = DateRepository(connection)
     dates = date_repository.filter_by_property('space_id', space.id)
 
+    if request.method == 'POST':
+        booking_request_repository = BookingRequestRepository(connection)
+        date_id = request.form.get('date')
+        user_id = session.get('user_id')
+        booking_request = BookingRequest(
+            None, 
+            None, 
+            space_id=space.id, 
+            date_id=date_id, 
+            guest_id=user_id, 
+            owner_id=space.user_id
+            )
+        
     return render_template('/spaces/detail.html', space=space, dates=dates)
 
 @app.route('/users/<int:id>/spaces')
