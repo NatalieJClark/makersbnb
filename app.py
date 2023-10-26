@@ -52,7 +52,8 @@ def space_detail(id):
             guest_id=user_id, 
             owner_id=space.user_id
             )
-        
+        booking_request_repository.create(booking_request)
+       
     return render_template('/spaces/detail.html', space=space, dates=dates)
 
 @app.route('/users/<int:id>/spaces')
