@@ -105,7 +105,7 @@ When we click log-out, our session ends
 def test_detail_view(page, test_web_address):
     page.goto(f"http://{test_web_address}/spaces/detail/1")
     name_tag = page.locator('.card-title')
-    expect(name_tag).to_have_text('MYPLACE1 £10.0')
+    expect(name_tag).to_have_text('MYPLACE1 £10.00')
 
     dates = page.locator('.list-group-item')
     expect(dates).to_have_text(['2023-10-29', '2023-10-30'])
@@ -133,7 +133,7 @@ def test_see_more_button(page, test_web_address, db_connection):
     page.locator('.btn-primary').first    
     page.click("text=See more")
     title_tag = page.locator('.card-title')
-    expect(title_tag).to_have_text('MYPLACE1 £10.0')
+    expect(title_tag).to_have_text('MYPLACE1 £10.00')
 
 def test_request_list(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')

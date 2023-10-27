@@ -6,7 +6,8 @@
         <div class="col-md-8">
             <div class="card m-3 text-center m-0 p-0 size" >
                 <div class="card-body">
-                <h2 class="card-title">{{space.name|upper}} £{{space.price}}</h5>
+                {% set formatted_price = "%0.2f"|format(space.price) %}
+                <h2 class="card-title">{{space.name|upper}} £{{formatted_price}}</h5>
                 <p class="card-text">{{space.description}}</p>
                 <p>
                     <span>
