@@ -151,7 +151,7 @@ def test_create_space(page, test_web_address, db_connection):
     
     page.goto(f"http://{test_web_address}/spaces/new")
     page.fill("input[name=name]", "New space 1")
-    page.fill("input[name=description]", "New space Description 1")
+    page.fill("textarea[name=description]", "New space Description 1")
     page.fill("input[name=size]", "20")
     page.fill("input[name=location]", "London")
     page.fill("input[name=price]", "75")

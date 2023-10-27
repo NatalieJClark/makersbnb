@@ -11,6 +11,7 @@ from lib.date_repositoty import DateRepository
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
 
+
 # Routes
 
 @app.route('/index', methods=['GET'])

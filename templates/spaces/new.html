@@ -4,7 +4,7 @@ Create Space
 {%endblock title %}
 
 {%block content%}
-<div class="form-container" style="height: 80vh;">
+<div class="form-container form-spacer" style="height: 80vh;">
     <div class="card mx-auto" style="width: 35rem;">
         <div class="card-body">
         <h5 class="card-title">Create New Space</h5>
@@ -15,7 +15,7 @@ Create Space
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <input class="form-control" type="text" name="description" id="description">
+                <textarea name="description" class="form-control"></textarea>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="size">Size</label>
@@ -27,7 +27,7 @@ Create Space
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Price</label>
-                <input class="form-control" type="number" name="price" id="price">
+                <input class="form-control" type="number" name="price" step="0.01" id="price">
             </div>
             <input class="btn btn-primary login-btn" type="submit" value="Create New Space">
         </form>
