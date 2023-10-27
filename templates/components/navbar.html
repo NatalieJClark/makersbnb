@@ -19,17 +19,18 @@
           {% if logged %}
           <li class="nav-item">
             <a class="nav-link" href="#">My Spaces</a>
+            <a class="nav-link" href="{{ url_for('space_list_by_user', id=session.get('user_id')) }}">My Spaces</a>
           </li>
-
-          {% endif %}
-
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('space_create', id=session.get('user_id')) }}">Create Space</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('request_list')}}">Manage Requests</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('my_bookings_list')}}">My Bookings</a>
           </li>
-
+          {% endif %}
         </ul>
       </div>
     </div>

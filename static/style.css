@@ -25,6 +25,10 @@ footer {
     width: 100%;
 }
 
+.form-spacer {
+    margin-bottom: 100px;
+}
+
 .spacer {
     margin-top: 150px;
 }
