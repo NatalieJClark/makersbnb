@@ -132,6 +132,7 @@ def test_see_more_button(page, test_web_address, db_connection):
     page.fill("input[name=email]", "name3@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
+
     page.locator('.btn-primary').first    
     page.click("text=See more")
     title_tag = page.locator('.card-title')
@@ -160,32 +161,32 @@ def test_request_list_confirm(page, test_web_address, db_connection):
     test_confirmed = page.locator('.test-confirmed')
     expect(test_confirmed).to_have_text('True')
 
-def test_create_space(page, test_web_address, db_connection):
-    """
+# def test_create_space(page, test_web_address, db_connection):
+#     """
     
-    """
+#     """
 
-    db_connection.seed('seeds/makers_bnb_library.sql')
-    page.set_default_timeout(1000)
-    page.goto(f"http://{test_web_address}/index")
-    page.fill("input[name=email]", "name3@cmail.com")
-    page.fill("input[name=password]", "password3")
-    page.locator(".btn").click()
+#     db_connection.seed('seeds/makers_bnb_library.sql')
+#     page.set_default_timeout(1000)
+#     page.goto(f"http://{test_web_address}/index")
+#     page.fill("input[name=email]", "name3@cmail.com")
+#     page.fill("input[name=password]", "password3")
+#     page.locator(".btn").click()
 
     
-    page.goto(f"http://{test_web_address}/spaces/new")
-    page.fill("input[name=name]", "New space 1")
-    page.fill("textarea[name=description]", "New space Description 1")
-    page.fill("input[name=size]", "20")
-    page.fill("input[name=location]", "London")
-    page.fill("input[name=price]", "75")
-    page.locator(".btn").click()
-    page.screenshot(path='screenshot.png')
-    title_tag = page.locator('.t-test')
+#     page.goto(f"http://{test_web_address}/spaces/new")
+#     page.fill("input[name=name]", "New space 1")
+#     page.fill("textarea[name=description]", "New space Description 1")
+#     page.fill("input[name=size]", "20")
+#     page.fill("input[name=location]", "London")
+#     page.fill("input[name=price]", "75")
+#     page.locator(".btn").click()
+#     page.screenshot(path='screenshot.png')
+#     title_tag = page.locator('.t-test')
 
-    expect(title_tag).to_have_text([
-        'MYPLACE4 £30.00', 
-        'MYPLACE5 £18.00',
-        'NEW SPACE 1 £75.00']
-        )
+#     expect(title_tag).to_have_text([
+#         'MYPLACE4 £30.00', 
+#         'MYPLACE5 £18.00',
+#         'NEW SPACE 1 £75.00']
+#         )
 

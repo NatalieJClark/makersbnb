@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timedelta
 from flask import Flask, request, render_template, session, redirect, url_for, flash
 import hashlib
 from lib.database_connection import get_flask_database_connection
@@ -8,7 +9,7 @@ from lib.space import Space
 from lib.date_repositoty import DateRepository
 from lib.booking_request import BookingRequest
 from lib.booking_request_repository import BookingRequestRepository
-
+from lib.date import Date
 from dotenv import load_dotenv
 
 app = Flask(__name__)
@@ -123,6 +124,18 @@ def space_create():
     repo = SpaceRepository(connection)
     logged = check_login_status()
     if request.method == 'POST':
+
+        dates = []
+        delta = timedelta(days=1)
+        start_date = datetime.fromisoformat(request.form.get('date1')).date()
+       
+        end_date = datetime.fromisoformat(request.form.get('date2')).date()
+        while start_date <= end_date:
+            dates.append(start_date.isoformat())
+            start_date += delta
+
+        date_repository = DateRepository(connection)
+
         name = request.form.get('name')
         description = request.form.get('description')
         size = request.form.get('size')
@@ -130,12 +143,16 @@ def space_create():
         price = request.form.get('price')
         owner_id = session.get('user_id')
         space = Space(None, name, description, size, location, price, owner_id)
-        repo.create(space)
+        new_space = repo.create(space)
+        for date in dates:
+            new_date = Date(None, date, True, new_space.id)
+            date_repository.create(new_date)
+
         flash('Your space has been created.')
         return redirect(url_for('space_list_by_user', id=owner_id, logged=logged, username=username))
     else:
 
-        return render_template('spaces/new.html', logged=logged)
+        return render_template('spaces/new.html', logged=logged, username=username)
     
 @app.route('/user/requests', methods = ['GET', 'POST'])
 def request_list():
