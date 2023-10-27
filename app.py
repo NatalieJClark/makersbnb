@@ -32,14 +32,17 @@ def get_new_user():
 
 @app.route('/spaces/list')
 def space_list():
+    username = get_username()
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
     logged = check_login_status()
     spaces = repo.all()
-    return render_template('/spaces/list.html', spaces=spaces, logged=logged)
+    return render_template('/spaces/list.html', spaces=spaces, logged=logged, username=username)
 
 @app.route('/spaces/detail/<id>', methods=['GET', 'POST'])
 def space_detail(id):
+    username = get_username()
+    logged = check_login_status()
     connection = get_flask_database_connection(app)
     space_repository = SpaceRepository(connection)
     space = space_repository.find(id)
@@ -60,17 +63,20 @@ def space_detail(id):
             )
         booking_request_repository.create(booking_request)
         flash("Your booking has been created. You will receive the confirmation once it is confirmed :)")
-    return render_template('/spaces/detail.html', space=space, dates=dates)
-    logged = check_login_status()
-    return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged)
+        
+
+    return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged, username=username)
+    
+    #return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
+    username = get_username()
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
     spaces = repo.filter_by_property("user_id", id)
     logged = check_login_status()
-    return render_template('/spaces/list.html', spaces=spaces, logged=logged)
+    return render_template('/spaces/list.html', spaces=spaces, logged=logged, username=username)
 
 @app.route('/index', methods=['POST'])
 def login():
@@ -83,6 +89,7 @@ def login():
         user = rows[0]
         # set user id
         session['user_id'] = user.id
+        session['username'] = user.username
         
         return redirect(url_for('space_list'))
     else:
@@ -111,6 +118,7 @@ def user_create():
 
 @app.route('/spaces/new', methods=['GET', 'POST'])
 def space_create():
+    username = get_username()
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
     logged = check_login_status()
@@ -123,14 +131,16 @@ def space_create():
         owner_id = session.get('user_id')
         space = Space(None, name, description, size, location, price, owner_id)
         repo.create(space)
-
-        return redirect(url_for('space_list_by_user', id=owner_id, logged=logged))
+        flash('Your space has been created.')
+        return redirect(url_for('space_list_by_user', id=owner_id, logged=logged, username=username))
     else:
 
-        return render_template('account.html')
+        return render_template('spaces/new.html', logged=logged)
     
 @app.route('/user/requests', methods = ['GET', 'POST'])
 def request_list():
+    username = get_username()
+    logged = check_login_status()
     connection = get_flask_database_connection(app)
     booking_request_repo = BookingRequestRepository(connection)
     owner_id = session.get('user_id')
@@ -142,22 +152,28 @@ def request_list():
         booking_request_repo.update(booking)
         flash("Booking has been confirmed.")
         return redirect(url_for('request_list'))
-    return render_template('/bookings/list.html', bookings=bookings)
+    return render_template('/bookings/list.html', bookings=bookings, logged=logged, username=username)
 
 @app.route('/user/mybookings', methods = ['GET', 'POST'])
 def my_bookings_list():
+    username = get_username()
     connection = get_flask_database_connection(app)
     booking_request_repo = BookingRequestRepository(connection)
     guest_id = session.get('user_id')
     bookings = booking_request_repo.find_request_details('guests.id', guest_id)
-    return render_template('/bookings/booking_list.html', bookings=bookings)
-        return render_template('/spaces/new.html', logged=logged)
+    logged =  check_login_status()
+    return render_template('/bookings/booking_list.html', bookings=bookings, logged=logged, username=username)
+
 
 def check_login_status():
     # global method to check if user is logged in
     if 'user_id' not in session:
         return False
     return True
+
+def get_username():
+    if 'user_id' in session:
+        return session.get('username')
 
 
 # These lines start the server if you run this file directly

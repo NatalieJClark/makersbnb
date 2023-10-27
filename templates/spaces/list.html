@@ -16,8 +16,7 @@
                 <div class="card m-3" style="width: 18rem;">
                     <div class="card-body">
                     {% set formatted_price = "%0.2f"|format(space.price) %}
-                    <h5 class="card-title">{{space.name|upper}} £{{ formatted_price }}</h5>
-                    <h5 class="t-{{space.id}} card-title">{{space.name|upper}} £{{space.price}}</h5>
+                    <h5 class="t-test card-title">{{space.name|upper}} £{{ formatted_price }}</h5>
                     <p class="card-text">{{space.description}}</p>
                     <p>
                         <span>
@@ -27,7 +26,11 @@
                             {{space.location}}
                         </span>
                     </p>
+                    {% if logged == True %}
                     <a href="{{ url_for('space_detail', id=space.id) }}" class="btn btn-primary">See more</a>
+                    {% else %}
+                    <a href="{{ url_for('get_login') }}" class="btn btn-primary">See more</a>
+                    {% endif %}
                     </div>
                 </div>      
             {% endfor %}
