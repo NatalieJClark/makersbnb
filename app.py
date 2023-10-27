@@ -41,8 +41,7 @@ def space_detail(id):
     space = space_repository.find(id)
     date_repository = DateRepository(connection)
     dates = date_repository.filter_by_property('space_id', space.id)
-    
-
+    logged = check_login_status()
     return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged)
 
 @app.route('/users/<int:id>/spaces')
