@@ -1,6 +1,6 @@
 # Team Puffins' MakersBnB Python Project
 
-## Collaborators
+## Collaborators:
 
 - [@AigulDj](https://github.com/AigulDj)
 - [@igorlangoni](https://github.com/igorlangoni)
