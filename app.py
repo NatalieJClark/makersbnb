@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
 
+
 # Routes
 
 @app.route('/index', methods=['GET'])
@@ -60,13 +61,16 @@ def space_detail(id):
         booking_request_repository.create(booking_request)
         flash("Your booking has been created. You will receive the confirmation once it is confirmed :)")
     return render_template('/spaces/detail.html', space=space, dates=dates)
+    logged = check_login_status()
+    return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
     spaces = repo.filter_by_property("user_id", id)
-    return render_template('/spaces/list.html', spaces=spaces)
+    logged = check_login_status()
+    return render_template('/spaces/list.html', spaces=spaces, logged=logged)
 
 @app.route('/index', methods=['POST'])
 def login():
@@ -79,6 +83,7 @@ def login():
         user = rows[0]
         # set user id
         session['user_id'] = user.id
+        
         return redirect(url_for('space_list'))
     else:
         error = "*Email and Password don't match. Please try again."
@@ -104,14 +109,24 @@ def user_create():
     
     return redirect(url_for('get_login'))
 
-# only if a user is signed-in
-# this route can be re used for any pages that are only available
-# if the user is logged in
-@app.route('/account_page') #can change page
-def account_page():
-    if 'user_id' not in session:
-        return redirect('/sign-up')
+@app.route('/spaces/new', methods=['GET', 'POST'])
+def space_create():
+    connection = get_flask_database_connection(app)
+    repo = SpaceRepository(connection)
+    logged = check_login_status()
+    if request.method == 'POST':
+        name = request.form.get('name')
+        description = request.form.get('description')
+        size = request.form.get('size')
+        location = request.form.get('location')
+        price = request.form.get('price')
+        owner_id = session.get('user_id')
+        space = Space(None, name, description, size, location, price, owner_id)
+        repo.create(space)
+
+        return redirect(url_for('space_list_by_user', id=owner_id, logged=logged))
     else:
+
         return render_template('account.html')
     
 @app.route('/user/requests', methods = ['GET', 'POST'])
@@ -136,6 +151,7 @@ def my_bookings_list():
     guest_id = session.get('user_id')
     bookings = booking_request_repo.find_request_details('guests.id', guest_id)
     return render_template('/bookings/booking_list.html', bookings=bookings)
+        return render_template('/spaces/new.html', logged=logged)
 
 def check_login_status():
     # global method to check if user is logged in

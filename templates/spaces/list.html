@@ -17,6 +17,7 @@
                     <div class="card-body">
                     {% set formatted_price = "%0.2f"|format(space.price) %}
                     <h5 class="card-title">{{space.name|upper}} £{{ formatted_price }}</h5>
+                    <h5 class="t-{{space.id}} card-title">{{space.name|upper}} £{{space.price}}</h5>
                     <p class="card-text">{{space.description}}</p>
                     <p>
                         <span>
