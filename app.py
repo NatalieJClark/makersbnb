@@ -31,6 +31,7 @@ def logout():
 def get_new_user():
     return render_template('/users/new.html')
 
+@app.route('/home')
 @app.route('/spaces/list')
 def space_list():
     username = get_username()
@@ -42,8 +43,10 @@ def space_list():
 
 @app.route('/spaces/detail/<id>', methods=['GET', 'POST'])
 def space_detail(id):
-    username = get_username()
     logged = check_login_status()
+    if not logged:
+        return redirect(url_for('get_login'))
+    username = get_username()
     connection = get_flask_database_connection(app)
     space_repository = SpaceRepository(connection)
     space = space_repository.find(id)
@@ -65,18 +68,18 @@ def space_detail(id):
         booking_request_repository.create(booking_request)
         flash("Your booking has been created. You will receive the confirmation once it is confirmed :)")
         
-
     return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged, username=username)
     
-    #return render_template('/spaces/detail.html', space=space, dates=dates, logged=logged)
 
 @app.route('/users/<int:id>/spaces')
 def space_list_by_user(id):
+    logged = check_login_status()
+    if not logged:
+        return redirect(url_for('get_login'))
     username = get_username()
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
     spaces = repo.filter_by_property("user_id", id)
-    logged = check_login_status()
     return render_template('/spaces/list.html', spaces=spaces, logged=logged, username=username)
 
 @app.route('/index', methods=['POST'])
@@ -119,16 +122,18 @@ def user_create():
 
 @app.route('/spaces/new', methods=['GET', 'POST'])
 def space_create():
+    logged = check_login_status()
+    if not logged:
+        return redirect(url_for('get_login'))
     username = get_username()
     connection = get_flask_database_connection(app)
     repo = SpaceRepository(connection)
-    logged = check_login_status()
     if request.method == 'POST':
 
         dates = []
         delta = timedelta(days=1)
         start_date = datetime.fromisoformat(request.form.get('date1')).date()
-       
+
         end_date = datetime.fromisoformat(request.form.get('date2')).date()
         while start_date <= end_date:
             dates.append(start_date.isoformat())
@@ -156,8 +161,10 @@ def space_create():
     
 @app.route('/user/requests', methods = ['GET', 'POST'])
 def request_list():
-    username = get_username()
     logged = check_login_status()
+    if not logged:
+        return redirect(url_for('get_login'))
+    username = get_username()
     connection = get_flask_database_connection(app)
     booking_request_repo = BookingRequestRepository(connection)
     owner_id = session.get('user_id')
@@ -173,12 +180,14 @@ def request_list():
 
 @app.route('/user/mybookings', methods = ['GET', 'POST'])
 def my_bookings_list():
+    logged = check_login_status()
+    if not logged:
+        return redirect(url_for('get_login'))
     username = get_username()
     connection = get_flask_database_connection(app)
     booking_request_repo = BookingRequestRepository(connection)
     guest_id = session.get('user_id')
     bookings = booking_request_repo.find_request_details('guests.id', guest_id)
-    logged =  check_login_status()
     return render_template('/bookings/booking_list.html', bookings=bookings, logged=logged, username=username)
 
 

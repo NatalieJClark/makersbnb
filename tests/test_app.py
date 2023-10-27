@@ -103,6 +103,10 @@ When we click log-out, our session ends
     
 
 def test_detail_view(page, test_web_address):
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name3@cmail.com")
+    page.fill("input[name=password]", "password3")
+    page.locator(".btn").click()
     page.goto(f"http://{test_web_address}/spaces/detail/1")
     name_tag = page.locator('.card-title')
     expect(name_tag).to_have_text('MYPLACE1 £10.00')
@@ -121,7 +125,10 @@ def test_list_view(page, test_web_address, db_connection):
 
 def test_list_spaces_by_user_id(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
-
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name1@cmail.com")
+    page.fill("input[name=password]", "password1")
+    page.locator(".btn").click()
     page.goto(f"http://{test_web_address}/users/1/spaces")
     title_tag = page.locator('.card-title')
     expect(title_tag).to_have_text(['MYPLACE1 £10.00', 'MYPLACE2 £15.00'])
@@ -140,12 +147,20 @@ def test_see_more_button(page, test_web_address, db_connection):
 
 def test_request_list(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name3@cmail.com")
+    page.fill("input[name=password]", "password3")
+    page.locator(".btn").click()
     page.goto(f"http://{test_web_address}/user/requests")
     test_class = page.locator('.test-requests')
     expect(test_class).to_have_text('Guest Email')
 
 def test_my_bookings(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
+    page.goto(f"http://{test_web_address}/index")
+    page.fill("input[name=email]", "name3@cmail.com")
+    page.fill("input[name=password]", "password3")
+    page.locator(".btn").click()
     page.goto(f"http://{test_web_address}/user/mybookings")
     test_class = page.locator('.test-bookings')
     expect(test_class).to_have_text('Owner Email')
