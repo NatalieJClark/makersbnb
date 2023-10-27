@@ -18,9 +18,9 @@ app.secret_key = os.getenv("APP_SECRET_KEY")
 
 # Routes
 
-@app.route('/index', methods=['GET'])
+@app.route('/login', methods=['GET'])
 def get_login():
-    return render_template('/index.html')
+    return render_template('/login.html')
 
 @app.route('/logout')
 def logout():
@@ -32,7 +32,7 @@ def get_new_user():
     return render_template('/users/new.html')
 
 @app.route('/home')
-@app.route('/spaces/list')
+# @app.route('/spaces/list')
 def space_list():
     username = get_username()
     connection = get_flask_database_connection(app)
@@ -82,7 +82,7 @@ def space_list_by_user(id):
     spaces = repo.filter_by_property("user_id", id)
     return render_template('/spaces/list.html', spaces=spaces, logged=logged, username=username)
 
-@app.route('/index', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     connection = get_flask_database_connection(app)
     repo = UserRepository(connection)
@@ -98,8 +98,9 @@ def login():
         return redirect(url_for('space_list'))
     else:
         error = "*Email and Password don't match. Please try again."
-        return render_template('/index.html', errors=error), 400
+        return render_template('/login.html', errors=error), 400
     
+@app.route('/sign-in')
 @app.route('/users/new', methods=['POST'])
 def user_create():
     connection = get_flask_database_connection(app)

@@ -6,12 +6,12 @@ from flask import session
 # Tests for your routes go here
 
 """
-We can render the index page
+We can render the login page
 """
 def test_get_login(page, test_web_address):
-    # We load a virtual browser and navigate to the /index page
+    # We load a virtual browser and navigate to the /login page
     page.set_default_timeout(1000)
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
 
     h5_tag = page.locator('h5')
     login_tag = page.locator('.login-btn')
@@ -21,7 +21,7 @@ def test_get_login(page, test_web_address):
 
 def test_link_create_user(page, test_web_address):
     page.set_default_timeout(1000)
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.click("text=New to MakersBNB?")
     h5_tag = page.locator('h5')
     expect(h5_tag).to_have_text("Create New User")
@@ -50,7 +50,7 @@ def test_user_create_no_password_match(page, test_web_address):
 
 def test_user_login_successfully(page, test_web_address):
     page.set_default_timeout(1000)
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name3@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -59,7 +59,7 @@ def test_user_login_successfully(page, test_web_address):
 
 def test_user_login_wrong_email(page, test_web_address):
     page.set_default_timeout(1000)
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name10@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -68,7 +68,7 @@ def test_user_login_wrong_email(page, test_web_address):
 
 def test_user_login_wrong_password(page, test_web_address):
     page.set_default_timeout(1000)
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name1@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -82,7 +82,7 @@ We want the navbar to show 'log out' instead of 'log in'
 """
 def test_navbar_logout(page, test_web_address):
     page.set_default_timeout(1000)
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name3@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -94,7 +94,7 @@ When we click log-out, our session ends
 """
 # def test_logout_ends_session(page, test_web_address):
 #     page.set_default_timeout(1000)
-#     page.goto(f"http://{test_web_address}/index")
+#     page.goto(f"http://{test_web_address}/login")
 #     page.fill("input[name=email]", "name3@cmail.com")
 #     page.fill("input[name=password]", "password3")
 #     page.locator(".btn").click()
@@ -103,7 +103,7 @@ When we click log-out, our session ends
     
 
 def test_detail_view(page, test_web_address):
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name3@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -117,7 +117,7 @@ def test_detail_view(page, test_web_address):
 def test_list_view(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
 
-    page.goto(f"http://{test_web_address}/spaces/list")
+    page.goto(f"http://{test_web_address}/home")
     title_tag = page.locator('.t-test')
     expect(title_tag).to_have_text(
         ['MYPLACE1 £10.00', 'MYPLACE2 £15.00', 'MYPLACE3 £20.00', 'MYPLACE4 £30.00', 'MYPLACE5 £18.00']
@@ -125,7 +125,7 @@ def test_list_view(page, test_web_address, db_connection):
 
 def test_list_spaces_by_user_id(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name1@cmail.com")
     page.fill("input[name=password]", "password1")
     page.locator(".btn").click()
@@ -135,7 +135,7 @@ def test_list_spaces_by_user_id(page, test_web_address, db_connection):
 
 def test_see_more_button(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name3@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -147,7 +147,7 @@ def test_see_more_button(page, test_web_address, db_connection):
 
 def test_request_list(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name3@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -157,7 +157,7 @@ def test_request_list(page, test_web_address, db_connection):
 
 def test_my_bookings(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name3@cmail.com")
     page.fill("input[name=password]", "password3")
     page.locator(".btn").click()
@@ -167,7 +167,7 @@ def test_my_bookings(page, test_web_address, db_connection):
 
 def test_request_list_confirm(page, test_web_address, db_connection):
     db_connection.seed('seeds/makers_bnb_library.sql')
-    page.goto(f"http://{test_web_address}/index")
+    page.goto(f"http://{test_web_address}/login")
     page.fill("input[name=email]", "name2@cmail.com")
     page.fill("input[name=password]", "password2")
     page.locator(".btn").click()
@@ -183,7 +183,7 @@ def test_request_list_confirm(page, test_web_address, db_connection):
 
 #     db_connection.seed('seeds/makers_bnb_library.sql')
 #     page.set_default_timeout(1000)
-#     page.goto(f"http://{test_web_address}/index")
+#     page.goto(f"http://{test_web_address}/login")
 #     page.fill("input[name=email]", "name3@cmail.com")
 #     page.fill("input[name=password]", "password3")
 #     page.locator(".btn").click()
