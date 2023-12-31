@@ -9,8 +9,8 @@
 The user can:
 - [x] Create an account
 - [x] Log in and out
-- [x] Only see navbar links for "Log Out", "My Spaces", "Create Space", "Manage Requests" and "My Bookings" when they are logged in
-- [x] View all spaces
+- [x] See navbar links for "Log Out", "My Spaces", "Create Space", "Manage Requests" and "My Bookings", as well as their username, when they are logged in
+- [x] View all users' spaces
 - [x] View the avaliable dates for a space
 - [x] Book an avaliable date for a space
 - [x] Create a space
