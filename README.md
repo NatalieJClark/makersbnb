@@ -2,6 +2,7 @@
 
 ## Introduction
 - I made this project with Team Puffins for Makers Module 6 - Engineering Project 1
+- It is based on a [Makers' seed repo](https://github.com/makersacademy/makersbnb-python-seed) 
 - It is an "airbnb" style site
 <img width="1440" alt="image" src="https://github.com/NatalieJClark/makersbnb-python/assets/107806810/e1a0a959-0042-4800-8772-83540d47ad57">
 
