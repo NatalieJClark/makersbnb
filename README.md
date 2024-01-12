@@ -54,7 +54,7 @@ The user can:
 ; python app.py
 # Now visit http://localhost:5001/login in your browser
 ```
-## Collaborators:
+## Collaborators
 
 With thanks to my Puffins' teammates:
 - [@AigulDj](https://github.com/AigulDj)
